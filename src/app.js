@@ -6,6 +6,13 @@ const { correlationId, errorHandler, requestLogger } = require('./middleware');
 const routes = require('./routes');
 const logger = require('./utils/logger');
 const config = require('./config');
+const authRoutes = require('./routes/authRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const managementRoutes = require('./routes/managementRoutes');
+const fileRoutes = require('./routes/fileRoutes');
+const userRoutes = require('./routes/userRoutes');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const services = require('./config/services');
 
 const app = express();
 
@@ -23,6 +30,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(correlationId);
 app.use(requestLogger);
 
+// Socket.IO 프록시 설정
+app.use('/socket.io', createProxyMiddleware({ 
+  target: services.chat.url,
+  changeOrigin: true,
+  ws: true,
+  pathRewrite: {
+    '^/socket.io': '/socket.io'
+  },
+  onError: (err, req, res) => {
+    logger.error('WebSocket proxy error:', err);
+  }
+}));
+
 // 헬스 체크
 app.get('/health', (req, res) => {
   res.json({
@@ -33,7 +53,14 @@ app.get('/health', (req, res) => {
 });
 
 // API 라우트
-app.use('/api', routes);
+app.use('/api/v1', routes);
+app.use('/api/auth', authRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/files', fileRoutes);
+app.use('/api/rooms', managementRoutes);
+app.use('/api/ai', managementRoutes);
+app.use('/api/notifications', managementRoutes);
+app.use('/api/users', userRoutes);
 
 // 404 핸들러
 app.use((req, res) => {
@@ -56,7 +83,6 @@ app.listen(PORT, () => {
 // Graceful shutdown
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received. Performing graceful shutdown...');
-  // 필요한 정리 작업 수행
   process.exit(0);
 });
 

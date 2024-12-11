@@ -5,14 +5,14 @@ const services = {
       timeout: 5000,
       endpoints: {
         // Auth endpoints
-        login: '/api/auth/login',
-        register: '/api/auth/register',
-        validate: '/api/auth/validate',
-        refresh: '/api/auth/refresh',
-        logout: '/api/auth/logout',
-        profile: '/api/users/profile',
-        updateProfile: '/api/users/profile',
-        changePassword: '/api/users/password'
+        login: '/api/v1/auth/login',
+        register: '/api/v1/auth/register',
+        validate: '/api/v1/auth/validate',
+        refresh: '/api/v1/auth/refresh',
+        logout: '/api/v1/auth/logout',
+        profile: '/api/v1/users/profile',
+        updateProfile: '/api/v1/users/profile',
+        changePassword: '/api/v1/users/password'
       }
     },
   
@@ -22,14 +22,14 @@ const services = {
       timeout: 5000,
       endpoints: {
         // Chat endpoints
-        messages: '/api/messages',
-        messageHistory: '/api/messages/history',
-        sendMessage: '/api/messages/send',
-        deleteMessage: '/api/messages/delete',
-        editMessage: '/api/messages/edit',
-        rooms: '/api/rooms',
-        joinRoom: '/api/rooms/join',
-        leaveRoom: '/api/rooms/leave'
+        messages: '/api/v1/messages',
+        messageHistory: '/api/v1/messages/history',
+        sendMessage: '/api/v1/messages/send',
+        deleteMessage: '/api/v1/messages/delete',
+        editMessage: '/api/v1/messages/edit',
+        rooms: '/api/v1/rooms',
+        joinRoom: '/api/v1/rooms/join',
+        leaveRoom: '/api/v1/rooms/leave'
       }
     },
   
@@ -39,21 +39,33 @@ const services = {
       timeout: 5000,
       endpoints: {
         // Room management
-        rooms: '/api/rooms',
-        createRoom: '/api/rooms/create',
-        updateRoom: '/api/rooms/update',
-        deleteRoom: '/api/rooms/delete',
-        roomParticipants: '/api/rooms/participants',
+        rooms: '/api/v1/rooms',
+        roomDetail: '/api/v1/rooms/:roomId',
+        roomInvite: '/api/v1/rooms/:roomId/invite',
+        roomJoin: '/api/v1/rooms/:roomId/join',
         
         // AI management
-        ai: '/api/ai',
-        aiSettings: '/api/ai/settings',
-        aiResponse: '/api/ai/response',
+        aiSettings: '/api/v1/ai/:aiType/settings',
+        aiGenerate: '/api/v1/ai/:aiType/generate',
+        aiClearContext: '/api/v1/ai/:aiType/clear-context',
+        aiSystemPrompt: '/api/v1/ai/:aiType/system-prompt',
         
         // Notification management
-        notifications: '/api/notifications',
-        readNotification: '/api/notifications/read',
-        deleteNotification: '/api/notifications/delete'
+        notifications: '/api/v1/notifications',
+        notificationRead: '/api/v1/notifications/:notificationId/read',
+        notificationReadAll: '/api/v1/notifications/read-all',
+        notificationDelete: '/api/v1/notifications/:notificationId',
+        notificationSettings: '/api/v1/notifications/settings'
+      }
+    },
+  
+    file: {
+      url: process.env.FILE_SERVICE_URL,
+      endpoints: {
+        uploadInit: '/api/v1/upload/init',
+        uploadComplete: '/api/v1/upload/complete',
+        fileInfo: '/api/v1/files',
+        fileDelete: '/api/v1/files'
       }
     }
   };

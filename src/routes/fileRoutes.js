@@ -3,11 +3,11 @@ const router = express.Router();
 const httpClient = require('../utils/httpClient');
 const services = require('../config/services');
 
-// 로그인
-router.post('/login', async (req, res, next) => {
+// 파일 업로드 초기화
+router.post('/upload/init', async (req, res, next) => {
   try {
     const response = await httpClient.post(
-      `${services.auth.url}/api/v1/auth/login`,
+      `${services.file.url}/api/v1/upload/init`,
       req.body,
       {
         headers: req.headers
@@ -19,11 +19,11 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-// 회원가입
-router.post('/register', async (req, res, next) => {
+// 파일 업로드 완료
+router.post('/upload/complete', async (req, res, next) => {
   try {
     const response = await httpClient.post(
-      `${services.auth.url}/api/v1/auth/register`,
+      `${services.file.url}/api/v1/upload/complete`,
       req.body,
       {
         headers: req.headers
@@ -35,12 +35,11 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-// 토큰 갱신
-router.post('/refresh', async (req, res, next) => {
+// 파일 정보 조회
+router.get('/files/:fileId', async (req, res, next) => {
   try {
-    const response = await httpClient.post(
-      `${services.auth.url}/api/v1/auth/refresh`,
-      req.body,
+    const response = await httpClient.get(
+      `${services.file.url}/api/v1/files/${req.params.fileId}`,
       {
         headers: req.headers
       }
@@ -51,12 +50,11 @@ router.post('/refresh', async (req, res, next) => {
   }
 });
 
-// 로그아웃
-router.post('/logout', async (req, res, next) => {
+// 파일 삭제
+router.delete('/files/:fileId', async (req, res, next) => {
   try {
-    const response = await httpClient.post(
-      `${services.auth.url}/api/v1/auth/logout`,
-      req.body,
+    const response = await httpClient.delete(
+      `${services.file.url}/api/v1/files/${req.params.fileId}`,
       {
         headers: req.headers
       }
@@ -67,4 +65,4 @@ router.post('/logout', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+module.exports = router; 
