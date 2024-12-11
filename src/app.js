@@ -46,7 +46,7 @@ app.use('/socket.io', createProxyMiddleware({
 // 헬스 체크
 app.get('/health', (req, res) => {
   res.json({
-    status: 'healthy',
+    status: 'ok',
     timestamp: new Date().toISOString(),
     service: config.app.name
   });
