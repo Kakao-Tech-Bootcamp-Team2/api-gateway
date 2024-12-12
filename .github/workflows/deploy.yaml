@@ -17,7 +17,7 @@ jobs:
           script: |
             cd ~/api-gateway && \
             git pull origin main && \
-            npm install && \
+            sudo npm install && \
             sudo pm2 delete all || true && \
             sudo rm -rf ~/api-gateway/logs && \
             sudo rm -rf ~/api-gateway/uploads && \
@@ -41,7 +41,7 @@ jobs:
           script: |
             cd ~/api-gateway && \
             git pull origin main && \
-            npm install && \
+            sudo npm install && \
             sudo pm2 delete all || true && \
             sudo rm -rf ~/api-gateway/logs && \
             sudo rm -rf ~/api-gateway/uploads && \
@@ -65,7 +65,7 @@ jobs:
           script: |
             cd ~/api-gateway && \
             git pull origin main && \
-            npm install && \
+            sudo npm install && \
             sudo pm2 delete all || true && \
             sudo rm -rf ~/api-gateway/logs && \
             sudo rm -rf ~/api-gateway/uploads && \
