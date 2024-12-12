@@ -6,15 +6,19 @@ jobs:
     name: Deploy to EC2
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
+    env:
+      HOST_1: ${{ secrets.API_GATEWAY_HOST_1 }}
+      HOST_2: ${{ secrets.API_GATEWAY_HOST_2 }}
+      HOST_3: ${{ secrets.API_GATEWAY_HOST_3 }}
     strategy:
       matrix:
         include:
           - name: "Server 1"
-            host: ${{ secrets.API_GATEWAY_HOST_1 }}
+            host: ${{ env.HOST_1 }}
           - name: "Server 2"
-            host: ${{ secrets.API_GATEWAY_HOST_2 }}
+            host: ${{ env.HOST_2 }}
           - name: "Server 3"
-            host: ${{ secrets.API_GATEWAY_HOST_3 }}
+            host: ${{ env.HOST_3 }}
     steps:
       - name: Deploy to ${{ matrix.name }}
         uses: appleboy/ssh-action@master
