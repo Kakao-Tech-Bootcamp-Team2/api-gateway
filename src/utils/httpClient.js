@@ -3,7 +3,7 @@ const logger = require('./logger');
 const { TIMEOUTS } = require('../config/constants');
 
 const httpClient = axios.create({
-  timeout: TIMEOUTS.DEFAULT,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json'
   }
