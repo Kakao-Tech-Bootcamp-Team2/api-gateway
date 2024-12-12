@@ -6,11 +6,6 @@ const { correlationId, errorHandler, requestLogger } = require('./middleware');
 const routes = require('./routes');
 const logger = require('./utils/logger');
 const config = require('./config');
-const authRoutes = require('./routes/authRoutes');
-const chatRoutes = require('./routes/chatRoutes');
-const managementRoutes = require('./routes/managementRoutes');
-const fileRoutes = require('./routes/fileRoutes');
-const userRoutes = require('./routes/userRoutes');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const services = require('./config/services');
 
@@ -43,24 +38,9 @@ app.use('/socket.io', createProxyMiddleware({
   }
 }));
 
-// 헬스 체크
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    service: config.app.name
-  });
-});
 
 // API 라우트
-app.use('/api/v1', routes);
-app.use('/api/auth', authRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/files', fileRoutes);
-app.use('/api/rooms', managementRoutes);
-app.use('/api/ai', managementRoutes);
-app.use('/api/notifications', managementRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api', routes);
 
 // 404 핸들러
 app.use((req, res) => {
