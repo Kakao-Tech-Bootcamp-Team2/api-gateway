@@ -20,10 +20,10 @@ router.post('/upload/init', async (req, res, next) => {
 });
 
 // 파일 업로드 완료
-router.post('/upload/complete', async (req, res, next) => {
+router.post('/upload/complete/:uploadId', async (req, res, next) => {
   try {
     const response = await httpClient.post(
-      `${services.file.url}/api/v1/upload/complete`,
+      `${services.file.url}/api/v1/upload/complete/${req.params.uploadId}`,
       req.body,
       {
         headers: req.headers
