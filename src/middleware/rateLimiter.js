@@ -10,6 +10,8 @@ const redisClient = createClient({
 
 redisClient.connect().catch(console.error);
 
+// 주석 처리하여 요청 제한 기능 비활성화
+/*
 const rateLimiter = rateLimit({
   store: new RedisStore({
     sendCommand: (...args) => redisClient.sendCommand(args),
@@ -26,5 +28,11 @@ const rateLimiter = rateLimit({
     return req.user ? `user:${req.user.id}` : req.ip;
   }
 });
+*/
+
+// 개발 버전에서는 요청 제한을 통과시키기 위해 빈 미들웨어를 사용
+const rateLimiter = (req, res, next) => {
+  next(); // 요청을 통과시킴
+};
 
 module.exports = rateLimiter;
