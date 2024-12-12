@@ -48,7 +48,7 @@ router.get('/:roomId', async (req, res, next) => {
   }
 });
 
-router.patch('/rooms/:roomId', async (req, res, next) => {
+router.patch('/:roomId', async (req, res, next) => {
   try {
     const response = await httpClient.patch(
       `${services.management.url}/api/v1/rooms/${req.params.roomId}`,
